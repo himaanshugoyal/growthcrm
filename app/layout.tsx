@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Capture, qualify and convert WhatsApp leads with one AI-powered growth CRM.",
       type: "website",
-      images: [{ url: `${origin}/og.png`, width: 1744, height: 920, alt: "GrowthOS — Turn WhatsApp conversations into revenue" }],
+      images: [{ url: `${origin}/og.png`, width: 1726, height: 911, alt: "GrowthOS — Turn WhatsApp conversations into revenue" }],
     },
     twitter: {
       card: "summary_large_image",
