@@ -1,4 +1,5 @@
-import { env } from "cloudflare:workers";
+import { getDatabase } from "@/db/runtime";
+import { ensureWorkspaceSchema } from "@/db/workspace";
 
 const allowedEvents = new Set([
   "lead_created", "form_submitted", "demo_requested", "signup_started",
@@ -21,6 +22,8 @@ function json(body: unknown, status = 200) {
 }
 
 export async function POST(request: Request) {
+  await ensureWorkspaceSchema();
+  const db = getDatabase();
   const productKey = request.headers.get("x-growthos-product-key")?.trim();
   const idempotencyKey = request.headers.get("idempotency-key")?.trim();
   if (!productKey || !idempotencyKey || idempotencyKey.length > 160) {
@@ -40,7 +43,7 @@ export async function POST(request: Request) {
     return json({ error: "Unsupported lifecycle event." }, 422);
   }
 
-  const product = await env.DB.prepare(
+  const product = await db.prepare(
     "SELECT id, organization_id FROM products WHERE tracking_key = ? AND deleted_at IS NULL LIMIT 1",
   ).bind(productKey).first<{ id: string; organization_id: string }>();
   if (!product) return json({ error: "Unknown product key." }, 404);
@@ -48,7 +51,7 @@ export async function POST(request: Request) {
   const eventId = crypto.randomUUID();
   const occurredAt = payload.occurredAt || new Date().toISOString();
   try {
-    await env.DB.prepare(
+    await db.prepare(
       `INSERT INTO lifecycle_events
        (id, organization_id, product_id, visitor_id, event_name, occurred_at, idempotency_key, properties_json, attribution_json)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,

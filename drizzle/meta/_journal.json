@@ -15,6 +15,20 @@
       "when": 1784816942015,
       "tag": "0001_worthless_raider",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1784820978016,
+      "tag": "0002_nosy_raza",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1784821003080,
+      "tag": "0003_swift_zarek",
+      "breakpoints": true
     }
   ]
 }

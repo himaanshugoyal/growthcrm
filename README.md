@@ -99,6 +99,19 @@ PostgreSQL, while Cloudflare builds continue to use the D1 `DB` binding.
 Connect a Railway PostgreSQL service so that `DATABASE_URL` is available before
 using the contact and lifecycle-event API routes.
 
+Copy `.env.example` to `.env.local` only when running the Railway/Node database
+path locally, then replace the placeholder with a real PostgreSQL connection
+string. Never commit `.env.local`.
+
+## Live workspace data
+
+The internal application contains no seeded demo records. It reads organizations,
+products, leads, notes, lifecycle events, conversations, messages, campaigns,
+customers, tasks, automations, integrations, and audit history from the bound
+database. On a new database, open `/dashboard` and create the real organization
+and first product. The public contact form then saves both a marketing lead and
+a CRM lead for that product.
+
 ## Learn More
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)

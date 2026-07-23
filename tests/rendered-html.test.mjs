@@ -3,22 +3,25 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 test("ships the GrowthOS founder command center", async () => {
-  const [app, layout, data] = await Promise.all([
+  const [app, layout, data, workspaceApi] = await Promise.all([
     readFile(new URL("../app/growth-os.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/data.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/api/workspace/route.ts", import.meta.url), "utf8"),
   ]);
   assert.match(layout, /Turn WhatsApp conversations into revenue/);
-  assert.match(app, /Good morning, Himanshu/);
+  assert.match(app, /Live database/);
   assert.match(app, /Demand to revenue/);
   assert.match(app, /Needs your attention/);
-  assert.match(data, /FlowKreative/);
-  assert.match(data, /Asksemble/);
-  assert.match(data, /Vyrical/);
+  assert.match(data, /WorkspaceData/);
+  assert.doesNotMatch(data, /Aarav|FlowKreative|Asksemble|Vyrical/);
+  assert.match(workspaceApi, /lead\.stage/);
+  assert.match(workspaceApi, /conversation\.message/);
+  assert.match(workspaceApi, /task\.completed/);
   assert.doesNotMatch(app + layout, /codex-preview|Building your site/i);
 });
 
-test("ships the public landing page and persistent demo capture", async () => {
+test("ships the public landing page and persistent lead capture", async () => {
   const [landing, contact, endpoint, migration] = await Promise.all([
     readFile(new URL("../app/landing-page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/contact/contact-form.tsx", import.meta.url), "utf8"),

@@ -42,6 +42,13 @@ export const leads = sqliteTable("leads", {
   source: text("source"),
   campaign: text("campaign"),
   assignedTo: text("assigned_to"),
+  location: text("location"),
+  requirement: text("requirement"),
+  pain: text("pain"),
+  budget: text("budget"),
+  timeline: text("timeline"),
+  nextStep: text("next_step"),
+  intent: text("intent"),
   consentStatus: text("consent_status").notNull().default("unknown"),
   consentAt: text("consent_at"),
   lastActivityAt: text("last_activity_at"),
@@ -51,6 +58,15 @@ export const leads = sqliteTable("leads", {
   index("leads_email_idx").on(t.organizationId, t.email),
   index("leads_phone_idx").on(t.organizationId, t.normalizedPhone),
 ]);
+
+export const leadNotes = sqliteTable("lead_notes", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id").notNull(),
+  leadId: text("lead_id").notNull().references(() => leads.id),
+  authorName: text("author_name").notNull(),
+  content: text("content").notNull(),
+  createdAt: text("created_at").notNull(),
+}, (t) => [index("lead_notes_lead_time_idx").on(t.leadId, t.createdAt)]);
 
 export const lifecycleEvents = sqliteTable("lifecycle_events", {
   id: text("id").primaryKey(),
@@ -109,6 +125,58 @@ export const customers = sqliteTable("customers", {
   ...audit,
 }, (t) => [index("customers_scope_idx").on(t.organizationId, t.productId)]);
 
+export const campaigns = sqliteTable("campaigns", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id").notNull(),
+  productId: text("product_id").notNull(),
+  name: text("name").notNull(),
+  platform: text("platform").notNull(),
+  status: text("status").notNull().default("Draft"),
+  spend: real("spend").notNull().default(0),
+  leadCount: integer("lead_count").notNull().default(0),
+  paidCount: integer("paid_count").notNull().default(0),
+  revenue: real("revenue").notNull().default(0),
+  lastSyncedAt: text("last_synced_at"),
+  ...audit,
+}, (t) => [index("campaigns_scope_idx").on(t.organizationId, t.productId)]);
+
+export const tasks = sqliteTable("tasks", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id").notNull(),
+  productId: text("product_id"),
+  leadId: text("lead_id"),
+  title: text("title").notNull(),
+  taskType: text("task_type").notNull().default("Follow-up"),
+  dueAt: text("due_at"),
+  priority: text("priority").notNull().default("Medium"),
+  assignedTo: text("assigned_to"),
+  completedAt: text("completed_at"),
+  ...audit,
+}, (t) => [index("tasks_org_due_idx").on(t.organizationId, t.dueAt)]);
+
+export const automations = sqliteTable("automations", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id").notNull(),
+  productId: text("product_id"),
+  name: text("name").notNull(),
+  triggerDescription: text("trigger_description").notNull(),
+  actionDescription: text("action_description").notNull(),
+  runCount: integer("run_count").notNull().default(0),
+  enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+  ...audit,
+}, (t) => [index("automations_org_idx").on(t.organizationId)]);
+
+export const integrations = sqliteTable("integrations", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id").notNull(),
+  productId: text("product_id"),
+  provider: text("provider").notNull(),
+  status: text("status").notNull().default("Disconnected"),
+  description: text("description").notNull().default(""),
+  lastSyncedAt: text("last_synced_at"),
+  ...audit,
+}, (t) => [index("integrations_org_idx").on(t.organizationId)]);
+
 export const auditLogs = sqliteTable("audit_logs", {
   id: text("id").primaryKey(),
   organizationId: text("organization_id").notNull(),
@@ -130,7 +198,7 @@ export const marketingLeads = sqliteTable("marketing_leads", {
   teamSize: text("team_size").notNull(),
   goal: text("goal").notNull(),
   message: text("message").notNull().default(""),
-  source: text("source").notNull().default("website_demo"),
+  source: text("source").notNull().default("website"),
   consentAt: text("consent_at").notNull(),
   createdAt: text("created_at").notNull(),
 }, (t) => [
