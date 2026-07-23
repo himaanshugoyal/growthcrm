@@ -92,6 +92,13 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
+## Railway
+
+Railway's build variables are detected automatically: the Node bundle uses
+PostgreSQL, while Cloudflare builds continue to use the D1 `DB` binding.
+Connect a Railway PostgreSQL service so that `DATABASE_URL` is available before
+using the contact and lifecycle-event API routes.
+
 ## Learn More
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)
