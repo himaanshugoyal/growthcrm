@@ -121,3 +121,19 @@ export const auditLogs = sqliteTable("audit_logs", {
   metadataJson: text("metadata_json").notNull().default("{}"),
   createdAt: text("created_at").notNull().default("CURRENT_TIMESTAMP"),
 }, (t) => [index("audit_org_time_idx").on(t.organizationId, t.createdAt)]);
+
+export const marketingLeads = sqliteTable("marketing_leads", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  teamSize: text("team_size").notNull(),
+  goal: text("goal").notNull(),
+  message: text("message").notNull().default(""),
+  source: text("source").notNull().default("website_demo"),
+  consentAt: text("consent_at").notNull(),
+  createdAt: text("created_at").notNull(),
+}, (t) => [
+  index("marketing_leads_created_idx").on(t.createdAt),
+  index("marketing_leads_email_idx").on(t.email),
+]);

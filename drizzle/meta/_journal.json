@@ -8,6 +8,13 @@
       "when": 1784814887229,
       "tag": "0000_thick_starjammers",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1784816942015,
+      "tag": "0001_worthless_raider",
+      "breakpoints": true
     }
   ]
 }

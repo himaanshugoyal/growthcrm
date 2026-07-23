@@ -1,5 +1,5 @@
-import { GrowthOS } from "./growth-os";
+import { LandingPage } from "./landing-page";
 
 export default function Home() {
-  return <GrowthOS />;
+  return <LandingPage />;
 }

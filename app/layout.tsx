@@ -14,23 +14,23 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(origin),
     title: {
-      default: "GrowthOS — AI Growth CRM",
+      default: "GrowthOS — Turn WhatsApp conversations into revenue",
       template: "%s · GrowthOS",
     },
     description:
-      "The founder command center for turning product demand into paying, satisfied customers.",
+      "Capture, qualify and convert WhatsApp leads with one AI-powered inbox, pipeline and revenue attribution workspace.",
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
     openGraph: {
-      title: "GrowthOS — Demand to delighted customers",
+      title: "GrowthOS — Turn WhatsApp conversations into revenue",
       description:
-        "One focused AI Growth CRM across your products, campaigns, conversations, and revenue.",
+        "Capture, qualify and convert WhatsApp leads with one AI-powered growth CRM.",
       type: "website",
-      images: [{ url: `${origin}/og.png`, width: 1200, height: 630, alt: "GrowthOS — Demand to delighted customers" }],
+      images: [{ url: `${origin}/og.png`, width: 1744, height: 920, alt: "GrowthOS — Turn WhatsApp conversations into revenue" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "GrowthOS — Demand to delighted customers",
-      description: "One focused AI Growth CRM across products, campaigns, conversations, and revenue.",
+      title: "GrowthOS — Turn WhatsApp conversations into revenue",
+      description: "Capture, qualify and convert WhatsApp leads with one AI-powered growth CRM.",
       images: [`${origin}/og.png`],
     },
   };

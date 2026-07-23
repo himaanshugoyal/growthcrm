@@ -8,7 +8,7 @@ test("ships the GrowthOS founder command center", async () => {
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/data.ts", import.meta.url), "utf8"),
   ]);
-  assert.match(layout, /GrowthOS — AI Growth CRM/);
+  assert.match(layout, /Turn WhatsApp conversations into revenue/);
   assert.match(app, /Good morning, Himanshu/);
   assert.match(app, /Demand to revenue/);
   assert.match(app, /Needs your attention/);
@@ -16,6 +16,20 @@ test("ships the GrowthOS founder command center", async () => {
   assert.match(data, /Asksemble/);
   assert.match(data, /Vyrical/);
   assert.doesNotMatch(app + layout, /codex-preview|Building your site/i);
+});
+
+test("ships the public landing page and persistent demo capture", async () => {
+  const [landing, contact, endpoint, migration] = await Promise.all([
+    readFile(new URL("../app/landing-page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/contact/contact-form.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../drizzle/0001_worthless_raider.sql", import.meta.url), "utf8"),
+  ]);
+  assert.match(landing, /Turn every WhatsApp conversation into/);
+  assert.match(landing, /Book your free demo/);
+  assert.match(contact, /Book my personalized demo/);
+  assert.match(endpoint, /INSERT INTO marketing_leads/);
+  assert.match(migration, /CREATE TABLE `marketing_leads`/);
 });
 
 test("supports deep-linked CRM routes through the application shell", async () => {
